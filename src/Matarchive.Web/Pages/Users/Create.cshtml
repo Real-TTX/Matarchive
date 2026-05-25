@@ -1,0 +1,60 @@
+@page
+@model Users.CreateModel
+@{
+    ViewData["Title"] = "Benutzer anlegen";
+    ViewData["Eyebrow"] = "Lokale Verwaltung";
+}
+
+<section class="panel record">
+    <div class="record-head">
+        <div>
+            <p class="eyebrow">Neuer Benutzer</p>
+            <h2 class="section-title">Lokales Admin-Konto anlegen</h2>
+        </div>
+        <a asp-page="/Users/Index" class="btn btn-secondary">
+            <partial name="_Icon" model='"back"' />
+            <span>Zur Liste</span>
+        </a>
+    </div>
+
+    <form method="post" class="form-grid">
+        <div asp-validation-summary="ModelOnly" class="muted"></div>
+
+        <div class="form-grid form-grid-2">
+            <div class="field">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="input" />
+                <span asp-validation-for="Username" class="muted"></span>
+            </div>
+            <div class="field">
+                <label asp-for="DisplayName"></label>
+                <input asp-for="DisplayName" class="input" />
+                <span asp-validation-for="DisplayName" class="muted"></span>
+            </div>
+        </div>
+
+        <div class="form-grid form-grid-2">
+            <div class="field">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="input" />
+                <span asp-validation-for="Password" class="muted"></span>
+            </div>
+            <label class="check-row">
+                <input asp-for="IsActive" />
+                <span>Benutzer aktiv</span>
+            </label>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <partial name="_Icon" model='"save"' />
+                <span>Speichern</span>
+            </button>
+            <a asp-page="/Users/Index" class="btn btn-secondary">
+                <partial name="_Icon" model='"back"' />
+                <span>Abbrechen</span>
+            </a>
+        </div>
+    </form>
+</section>
+

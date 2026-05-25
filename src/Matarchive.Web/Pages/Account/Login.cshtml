@@ -1,0 +1,38 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+    ViewData["Eyebrow"] = "Zugang";
+}
+
+<section class="hero panel">
+    <div class="hero-copy">
+        <p class="eyebrow">Willkommen zurück</p>
+        <h2>Matarchive steuert Archiv- und Sync-Jobs mit lokalem Admin-Zugriff.</h2>
+        <p class="muted">
+            Melde dich an, um Tasks, Verbindungen, API-Keys und Benachrichtigungen zu verwalten.
+        </p>
+    </div>
+
+    <div class="panel record">
+        <h2 class="section-title">Login</h2>
+        <form method="post" class="form-grid">
+            <div asp-validation-summary="ModelOnly" class="muted"></div>
+            <div class="field">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="input" autocomplete="username" />
+                <span asp-validation-for="Username" class="muted"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="input" autocomplete="current-password" />
+                <span asp-validation-for="Password" class="muted"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <partial name="_Icon" model='"login"' />
+                <span>Einloggen</span>
+            </button>
+        </form>
+    </div>
+</section>
+

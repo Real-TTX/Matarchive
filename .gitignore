@@ -1,0 +1,12 @@
+bin/
+obj/
+**/bin/
+**/obj/
+.vs/
+.idea/
+*.user
+*.suo
+data/
+src/Matarchive.Web/wwwroot/lib/
+src/Matarchive.Web/wwwroot/favicon.ico
+

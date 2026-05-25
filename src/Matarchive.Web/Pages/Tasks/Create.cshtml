@@ -1,0 +1,178 @@
+@page
+@model Tasks.CreateModel
+@{
+    ViewData["Title"] = "Task anlegen";
+    ViewData["Eyebrow"] = "Jobverwaltung";
+}
+
+<section class="panel record">
+    <div class="record-head">
+        <div>
+            <p class="eyebrow">Neuer Task</p>
+            <h2 class="section-title">Source + Destination konfigurieren</h2>
+        </div>
+        <a asp-page="/Tasks/Index" class="btn btn-secondary">
+            <partial name="_Icon" model='"back"' />
+            <span>Zur Liste</span>
+        </a>
+    </div>
+
+    <form method="post" class="form-grid">
+        <div asp-validation-summary="ModelOnly" class="muted"></div>
+
+        <div class="form-grid form-grid-2">
+            <div class="field">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="input" />
+                <span asp-validation-for="Name" class="muted"></span>
+            </div>
+            <div class="field">
+                <label asp-for="TaskType"></label>
+                <select asp-for="TaskType" asp-items="Model.TaskTypeOptions" class="select"></select>
+                <span asp-validation-for="TaskType" class="muted"></span>
+            </div>
+        </div>
+
+        <div class="form-grid form-grid-2">
+            <div class="field">
+                <label asp-for="SourceConnectionId"></label>
+                <select asp-for="SourceConnectionId" asp-items="Model.SourceConnectionOptions" class="select">
+                    <option value="">Bitte waehlen</option>
+                </select>
+                <span asp-validation-for="SourceConnectionId" class="muted"></span>
+            </div>
+            <div class="field">
+                <label asp-for="DestinationConnectionId"></label>
+                <select asp-for="DestinationConnectionId" asp-items="Model.DestinationConnectionOptions" class="select">
+                    <option value="">Bitte waehlen</option>
+                </select>
+                <span asp-validation-for="DestinationConnectionId" class="muted"></span>
+            </div>
+        </div>
+
+        <div class="form-grid form-grid-2">
+            <div class="field">
+                <label asp-for="ArchiveFormat"></label>
+                <select asp-for="ArchiveFormat" asp-items="Model.ArchiveFormatOptions" class="select"></select>
+                <span asp-validation-for="ArchiveFormat" class="muted"></span>
+            </div>
+            <div class="field">
+                <label asp-for="CompressionLevel"></label>
+                <select asp-for="CompressionLevel" asp-items="Model.CompressionLevelOptions" class="select"></select>
+                <span asp-validation-for="CompressionLevel" class="muted"></span>
+            </div>
+        </div>
+
+        <div class="form-grid form-grid-2">
+            <div class="field">
+                <label asp-for="TransferMode"></label>
+                <select asp-for="TransferMode" asp-items="Model.TransferModeOptions" class="select"></select>
+                <span asp-validation-for="TransferMode" class="muted"></span>
+            </div>
+            <div class="field">
+                <label class="check-row">
+                    <input asp-for="VerifyDestination" />
+                    <span>Ziel nach Upload verifizieren</span>
+                </label>
+                <label class="check-row">
+                    <input asp-for="KeepLocalStagingOnFailure" />
+                    <span>Staging bei Fehler behalten</span>
+                </label>
+                <label class="check-row">
+                    <input asp-for="Enabled" />
+                    <span>Task aktivieren</span>
+                </label>
+            </div>
+        </div>
+
+        <section class="settings-band">
+            <div>
+                <p class="eyebrow">Scheduler</p>
+                <h3 class="section-title">Planung</h3>
+            </div>
+            <div class="form-grid form-grid-2">
+                <div class="field">
+                    <label asp-for="ScheduleMode"></label>
+                    <select asp-for="ScheduleMode" asp-items="Model.ScheduleModeOptions" class="select"></select>
+                    <span asp-validation-for="ScheduleMode" class="muted"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="ScheduleTimeZoneId"></label>
+                    <input asp-for="ScheduleTimeZoneId" class="input" placeholder="Europe/Berlin" />
+                    <span asp-validation-for="ScheduleTimeZoneId" class="muted"></span>
+                </div>
+            </div>
+            <div class="form-grid form-grid-2">
+                <div class="field">
+                    <label asp-for="ScheduleIntervalMinutes"></label>
+                    <input asp-for="ScheduleIntervalMinutes" class="input" type="number" min="1" step="1" placeholder="z. B. 60" />
+                    <span asp-validation-for="ScheduleIntervalMinutes" class="muted"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="ScheduleTime"></label>
+                    <input asp-for="ScheduleTime" class="input" type="time" />
+                    <span asp-validation-for="ScheduleTime" class="muted"></span>
+                </div>
+            </div>
+            <div class="field">
+                <label asp-for="SelectedScheduleDays"></label>
+                <div class="check-grid">
+                    @foreach (var day in Model.WeekdayOptions)
+                    {
+                        <label class="check-row">
+                            <input type="checkbox" name="SelectedScheduleDays" value="@day.Value" checked="@Model.SelectedScheduleDays.Contains(day.Value)" />
+                            <span>@day.Text</span>
+                        </label>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <section class="settings-band">
+            <div>
+                <p class="eyebrow">Retention</p>
+                <h3 class="section-title">Aufbewahrung</h3>
+            </div>
+            <div class="form-grid form-grid-3">
+                <div class="field">
+                    <label asp-for="RetentionMode"></label>
+                    <select asp-for="RetentionMode" asp-items="Model.RetentionModeOptions" class="select"></select>
+                    <span asp-validation-for="RetentionMode" class="muted"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="RetentionKeepLast"></label>
+                    <input asp-for="RetentionKeepLast" class="input" type="number" min="1" step="1" />
+                    <span asp-validation-for="RetentionKeepLast" class="muted"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="RetentionKeepDays"></label>
+                    <input asp-for="RetentionKeepDays" class="input" type="number" min="1" step="1" />
+                    <span asp-validation-for="RetentionKeepDays" class="muted"></span>
+                </div>
+            </div>
+        </section>
+
+        <div class="field">
+            <label asp-for="ArchiveFileNamePattern"></label>
+            <input asp-for="ArchiveFileNamePattern" class="input" placeholder="Matarchive_{TaskName}_yyyyMMdd_HHmmss" />
+            <span asp-validation-for="ArchiveFileNamePattern" class="muted"></span>
+        </div>
+
+        <div class="field">
+            <label asp-for="Notes"></label>
+            <input asp-for="Notes" class="input" />
+            <span asp-validation-for="Notes" class="muted"></span>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <partial name="_Icon" model='"save"' />
+                <span>Speichern</span>
+            </button>
+            <a asp-page="/Tasks/Index" class="btn btn-secondary">
+                <partial name="_Icon" model='"back"' />
+                <span>Abbrechen</span>
+            </a>
+        </div>
+    </form>
+</section>

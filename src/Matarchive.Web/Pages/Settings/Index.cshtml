@@ -1,0 +1,90 @@
+@page
+@model Settings.IndexModel
+@{
+    ViewData["Title"] = "Settings";
+    ViewData["Eyebrow"] = "Konfiguration";
+}
+
+<section class="panel record">
+    <div class="record-head">
+        <div>
+            <p class="eyebrow">SMTP</p>
+            <h2 class="section-title">E-Mail-Benachrichtigungen konfigurieren</h2>
+        </div>
+    </div>
+
+    <form method="post" class="form-grid">
+        <div asp-validation-summary="ModelOnly" class="muted"></div>
+
+        <div class="field">
+            <label asp-for="DefaultArchiveFileNamePattern"></label>
+            <input asp-for="DefaultArchiveFileNamePattern" class="input" placeholder="Matarchive_{TaskName}_yyyyMMdd_HHmmss" />
+            <span class="muted">Standard für neue Archiv-Tasks. Platzhalter: {TaskName}, {SourceName}, {DestinationName}, {TaskType}, dd, MM, YYYY, HH, mm, ss.</span>
+            <span asp-validation-for="DefaultArchiveFileNamePattern" class="muted"></span>
+        </div>
+
+        <div class="form-grid form-grid-2">
+            <div class="field">
+                <label asp-for="SmtpHost"></label>
+                <input asp-for="SmtpHost" class="input" />
+            </div>
+            <div class="field">
+                <label asp-for="SmtpPort"></label>
+                <input asp-for="SmtpPort" class="input" type="number" min="1" step="1" />
+            </div>
+        </div>
+
+        <div class="form-grid form-grid-2">
+            <div class="field">
+                <label asp-for="Username"></label>
+                <input asp-for="Username" class="input" />
+            </div>
+            <div class="field">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" class="input" />
+            </div>
+        </div>
+
+        <div class="form-grid form-grid-2">
+            <div class="field">
+                <label asp-for="FromAddress"></label>
+                <input asp-for="FromAddress" class="input" />
+            </div>
+            <div class="field">
+                <label asp-for="FromName"></label>
+                <input asp-for="FromName" class="input" />
+            </div>
+        </div>
+
+        <div class="field">
+            <label asp-for="RecipientsCsv"></label>
+            <textarea asp-for="RecipientsCsv" class="textarea"></textarea>
+        </div>
+
+        <div class="form-grid form-grid-2">
+            <label class="check-row">
+                <input asp-for="UseSsl" />
+                <span>SSL/TLS für SMTP verwenden</span>
+            </label>
+            <label class="check-row">
+                <input asp-for="NotifyOnSuccess" />
+                <span>Erfolgreiche Läufe melden</span>
+            </label>
+        </div>
+
+        <div class="form-grid form-grid-2">
+            <label class="check-row">
+                <input asp-for="NotifyOnFailure" />
+                <span>Fehler melden</span>
+            </label>
+            <div></div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <partial name="_Icon" model='"save"' />
+                <span>Speichern</span>
+            </button>
+        </div>
+    </form>
+</section>

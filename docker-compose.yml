@@ -1,0 +1,23 @@
+services:
+  matarchive:
+    build:
+      context: .
+      dockerfile: src/Matarchive.Web/Dockerfile
+      args:
+        APP_PORT: ${APP_PORT:-8077}
+    image: matarchive:latest
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      Matarchive__DataPath: /app/data
+      Matarchive__BaseUrl: http://localhost:${APP_PORT:-8077}
+      Matarchive__InitialAdminUsername: ${MATARCHIVE_ADMIN_USERNAME:-admin}
+      Matarchive__InitialAdminPassword: ${MATARCHIVE_ADMIN_PASSWORD:-ChangeMe!123}
+    ports:
+      - "${APP_PORT:-8077}:8077"
+    volumes:
+      - data:/app/data
+    restart: unless-stopped
+
+volumes:
+  data:
+

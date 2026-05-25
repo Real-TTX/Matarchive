@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#08111f" />
+    <title>@(ViewData["Title"] is string title && !string.IsNullOrWhiteSpace(title) ? $"{title} - Matarchive" : "Matarchive")</title>
+    <link rel="icon" type="image/svg+xml" href="~/favicon.svg" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="shell">
+        <aside class="sidebar">
+            <a class="brand" asp-page="/Index" aria-label="Matarchive Home">
+                <img src="~/images/logo.svg" alt="" class="brand-mark" />
+                <span class="brand-copy">
+                    <strong>Matarchive</strong>
+                    <small>Matthix + Archive</small>
+                </span>
+            </a>
+
+            @if (User?.Identity?.IsAuthenticated == true)
+            {
+                <nav class="nav">
+                    <a asp-page="/Dashboard" class="nav-link"><span class="nav-icon"><partial name="_Icon" model='"dashboard"' /></span><span>Dashboard</span></a>
+                    <a asp-page="/Tasks/Index" class="nav-link"><span class="nav-icon"><partial name="_Icon" model='"tasks"' /></span><span>Tasks</span></a>
+                    <a asp-page="/Connections/Index" class="nav-link"><span class="nav-icon"><partial name="_Icon" model='"connections"' /></span><span>Verbindungen</span></a>
+                    <a asp-page="/ApiKeys/Index" class="nav-link"><span class="nav-icon"><partial name="_Icon" model='"key"' /></span><span>API-Keys</span></a>
+                    <a asp-page="/Users/Index" class="nav-link"><span class="nav-icon"><partial name="_Icon" model='"users"' /></span><span>Benutzer</span></a>
+                    <a asp-page="/Settings/Index" class="nav-link"><span class="nav-icon"><partial name="_Icon" model='"settings"' /></span><span>Settings</span></a>
+                </nav>
+            }
+            else
+            {
+                <nav class="nav">
+                    <a asp-page="/Index" class="nav-link"><span class="nav-icon"><partial name="_Icon" model='"home"' /></span><span>Start</span></a>
+                    <a asp-page="/Account/Login" class="nav-link"><span class="nav-icon"><partial name="_Icon" model='"login"' /></span><span>Login</span></a>
+                </nav>
+            }
+
+            <div class="sidebar-footer">
+                <div class="status-card">
+                    <span class="status-dot"></span>
+                    <div>
+                        <strong>All users are admins</strong>
+                        <small>Lokale Verwaltung ohne Rollenfriktion.</small>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="topbar">
+                <div class="topbar-copy">
+                    <p class="eyebrow">@ViewData["Eyebrow"]</p>
+                    <h1>@ViewData["Title"]</h1>
+                </div>
+                <div class="topbar-actions">
+                    @if (User?.Identity?.IsAuthenticated == true)
+                    {
+                        <div class="user-chip">
+                            <span class="user-chip-label">Eingeloggt als</span>
+                            <strong>@User.Identity?.Name</strong>
+                        </div>
+                        <form method="post" asp-page="/Account/Logout" class="inline-form">
+                            <button type="submit" class="btn btn-secondary">
+                                <partial name="_Icon" model='"logout"' />
+                                <span>Logout</span>
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-page="/Account/Login" class="btn btn-primary">
+                            <partial name="_Icon" model='"login"' />
+                            <span>Login</span>
+                        </a>
+                    }
+                </div>
+            </header>
+
+            <section class="page-frame">
+                @if (TempData["FlashSuccess"] is string success && !string.IsNullOrWhiteSpace(success))
+                {
+                    <div class="flash flash-success">@success</div>
+                }
+
+                @if (TempData["FlashError"] is string error && !string.IsNullOrWhiteSpace(error))
+                {
+                    <div class="flash flash-error">@error</div>
+                }
+
+                @RenderBody()
+            </section>
+        </main>
+    </div>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
+

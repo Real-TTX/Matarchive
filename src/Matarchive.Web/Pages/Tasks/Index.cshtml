@@ -1,0 +1,77 @@
+@page
+@model Tasks.IndexModel
+@{
+    ViewData["Title"] = "Tasks";
+    ViewData["Eyebrow"] = "Jobverwaltung";
+}
+
+<section class="panel hero-slim">
+    <div>
+        <p class="eyebrow">Tasks</p>
+        <h2 class="section-title">Backup- und Sync-Jobs</h2>
+    </div>
+    <div class="actions">
+        <a asp-page="/Tasks/Create" class="btn btn-primary">
+            <partial name="_Icon" model='"plus"' />
+            <span>Neuer Task</span>
+        </a>
+    </div>
+</section>
+
+<section class="list-grid">
+    @foreach (var task in Model.Items)
+    {
+        <article class="panel record">
+            <div class="record-head">
+                <div>
+                    <h3 class="record-title">@task.Name</h3>
+                    <div class="record-meta">
+                        <span>@task.TaskType</span>
+                        <span>@task.SourceName (@task.SourceType) -> @task.DestinationName (@task.DestinationType)</span>
+                    </div>
+                </div>
+                <div class="pill-row">
+                    <span class="pill @task.StatusClass">@task.Status</span>
+                    <span class="pill">@((task.Enabled ? "Aktiv" : "Deaktiviert"))</span>
+                </div>
+            </div>
+
+            <div class="pill-row">
+                <span class="pill">Archiv: @task.ArchiveFormat</span>
+                <span class="pill">Kompression: @task.CompressionLevel</span>
+                <span class="pill">Transfer: @task.TransferMode</span>
+                <span class="pill">Schedule: @task.ScheduleSummary</span>
+                <span class="pill">Retention: @task.RetentionSummary</span>
+                <span class="pill">Letzter Lauf: @(task.LastRunAt?.ToLocalTime().ToString("dd.MM.yyyy HH:mm") ?? "nie")</span>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(task.LastMessage))
+            {
+                <p class="subtle">@task.LastMessage</p>
+            }
+
+            <div class="actions">
+                <form method="post" asp-page-handler="Run" asp-route-id="@task.Id" class="inline-form">
+                    <button type="submit" class="btn btn-secondary">
+                        <partial name="_Icon" model='"play"' />
+                        <span>Run now</span>
+                    </button>
+                </form>
+                <a asp-page="/Tasks/Details" asp-route-id="@task.Id" class="btn btn-ghost">
+                    <partial name="_Icon" model='"dashboard"' />
+                    <span>Details</span>
+                </a>
+                <a asp-page="/Tasks/Edit" asp-route-id="@task.Id" class="btn btn-secondary">
+                    <partial name="_Icon" model='"edit"' />
+                    <span>Bearbeiten</span>
+                </a>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@task.Id" class="inline-form" data-confirm="Diesen Task wirklich löschen?">
+                    <button type="submit" class="btn btn-danger">
+                        <partial name="_Icon" model='"trash"' />
+                        <span>Löschen</span>
+                    </button>
+                </form>
+            </div>
+        </article>
+    }
+</section>

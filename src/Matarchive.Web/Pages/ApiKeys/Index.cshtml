@@ -1,0 +1,51 @@
+@page
+@model ApiKeys.IndexModel
+@{
+    ViewData["Title"] = "API-Keys";
+    ViewData["Eyebrow"] = "Statuszugriff";
+}
+
+<section class="panel hero-slim">
+    <div>
+        <p class="eyebrow">API-Keys</p>
+        <h2 class="section-title">Status für externe Systeme</h2>
+        <p class="subtle">Mit dem Key-Header `X-Matarchive-Api-Key` oder `Authorization: Bearer ...` kannst du den Status abrufen.</p>
+    </div>
+    <div class="actions">
+        <a asp-page="/ApiKeys/Create" class="btn btn-primary">
+            <partial name="_Icon" model='"plus"' />
+            <span>Neuen Key</span>
+        </a>
+    </div>
+</section>
+
+<section class="list-grid">
+    @foreach (var key in Model.Items)
+    {
+        <article class="panel record">
+            <div class="record-head">
+                <div>
+                    <h3 class="record-title">@key.Name</h3>
+                    <div class="record-meta">
+                        <span>Prefix: @key.Prefix</span>
+                        <span>Erstellt: @key.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</span>
+                        <span>Letzte Nutzung: @(key.LastUsedAt?.ToLocalTime().ToString("dd.MM.yyyy HH:mm") ?? "nie")</span>
+                    </div>
+                </div>
+                <div class="pill-row">
+                    <span class="pill @(key.IsActive ? "pill-success" : "pill-danger")">@(key.IsActive ? "Aktiv" : "Inaktiv")</span>
+                </div>
+            </div>
+
+            <div class="actions">
+                <form method="post" asp-page-handler="Delete" asp-route-id="@key.Id" class="inline-form" data-confirm="Diesen API-Key wirklich widerrufen?">
+                    <button type="submit" class="btn btn-danger">
+                        <partial name="_Icon" model='"trash"' />
+                        <span>Widerrufen</span>
+                    </button>
+                </form>
+            </div>
+        </article>
+    }
+</section>
+

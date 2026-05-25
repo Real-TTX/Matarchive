@@ -1,0 +1,59 @@
+@model string
+@{
+    var icon = (Model ?? string.Empty).ToLowerInvariant();
+}
+
+<span class="icon" aria-hidden="true">
+    @switch (icon)
+    {
+        case "plus":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+            break;
+        case "edit":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><path d="M14 6l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+            break;
+        case "trash":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5h6v2m-7 0 .6 12h6.8L16 7M10 11v5M14 11v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            break;
+        case "play":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+            break;
+        case "save":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 5h12l2 2v12H5V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><path d="M8 5v6h8V5M9 19v-5h6v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            break;
+        case "back":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M10 6 4 12l6 6M5 12h15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            break;
+        case "login":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M10 5h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><path d="M13 12H4m5-4 4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            break;
+        case "logout":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 5h4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><path d="M11 12H4m3-4-4 4 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            break;
+        case "key":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" stroke="currentColor" stroke-width="2" /><path d="M13.5 13.5 20 20M18 20h2v-2h-2v2Zm-3-3h2v-2h-2v2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            break;
+        case "users":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M17 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><path d="M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm8 2a3 3 0 1 0-2.83-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+            break;
+        case "settings":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="2" /><path d="m19 12 2-1-1-3-2 .5a7.4 7.4 0 0 0-1.4-1.4L17 4l-3-1-1 2a7.4 7.4 0 0 0-2 0L10 3 7 4l.5 2.1A7.4 7.4 0 0 0 6.1 7.5L4 7l-1 3 2 1a7.4 7.4 0 0 0 0 2l-2 1 1 3 2-.5A7.4 7.4 0 0 0 6.1 17.5L6 20l3 1 1-2a7.4 7.4 0 0 0 2 0l1 2 3-1-.5-2.1a7.4 7.4 0 0 0 1.4-1.4l2 .5 1-3-2-1a7.4 7.4 0 0 0 0-2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" /></svg>
+            break;
+        case "dashboard":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 4h7v7H4V4Zm9 0h7v4h-7V4ZM4 13h7v7H4v-7Zm9 5h7v2h-7v-2Zm0-5h7v3h-7v-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+            break;
+        case "tasks":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 6h14M5 12h14M5 18h9" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><path d="m18 16 2 2 3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            break;
+        case "connections":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M7 7h4v4H7V7Zm6 6h4v4h-4v-4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><path d="M11 9h2m-1 2v3m-1 2h-1" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+            break;
+        case "home":
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 11.5 12 5l8 6.5V20H4v-8.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><path d="M9 20v-6h6v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            break;
+        default:
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" /></svg>
+            break;
+    }
+</span>
+

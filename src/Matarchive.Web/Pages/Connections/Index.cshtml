@@ -1,0 +1,58 @@
+@page
+@model Connections.IndexModel
+@{
+    ViewData["Title"] = "Verbindungen";
+    ViewData["Eyebrow"] = "Verbindungsprofile";
+}
+
+<section class="panel hero-slim">
+    <div>
+        <p class="eyebrow">Verbindungen</p>
+        <h2 class="section-title">E-Mail, SMB und weitere Profile</h2>
+    </div>
+    <div class="actions">
+        <a asp-page="/Connections/Create" class="btn btn-primary">
+            <partial name="_Icon" model='"plus"' />
+            <span>Neue Verbindung</span>
+        </a>
+    </div>
+</section>
+
+<section class="list-grid">
+    @foreach (var connection in Model.Items)
+    {
+        <article class="panel record">
+            <div class="record-head">
+                <div>
+                    <h3 class="record-title">@connection.Name</h3>
+                    <div class="record-meta">
+                        <span>@connection.Summary</span>
+                    </div>
+                </div>
+                <div class="pill-row">
+                    <span class="pill pill-info">@connection.Type</span>
+                    <span class="pill">@connection.UsageCount Tasks</span>
+                    <span class="pill">@connection.SecretHint</span>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(connection.Notes))
+            {
+                <p class="subtle"><strong>Notiz:</strong> @connection.Notes</p>
+            }
+
+            <div class="actions">
+                <a asp-page="/Connections/Edit" asp-route-id="@connection.Id" class="btn btn-secondary">
+                    <partial name="_Icon" model='"edit"' />
+                    <span>Bearbeiten</span>
+                </a>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@connection.Id" class="inline-form" data-confirm="Diese Verbindung wirklich löschen?">
+                    <button type="submit" class="btn btn-danger">
+                        <partial name="_Icon" model='"trash"' />
+                        <span>Löschen</span>
+                    </button>
+                </form>
+            </div>
+        </article>
+    }
+</section>

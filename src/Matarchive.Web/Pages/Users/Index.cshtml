@@ -1,0 +1,55 @@
+@page
+@model Users.IndexModel
+@{
+    ViewData["Title"] = "Benutzer";
+    ViewData["Eyebrow"] = "Lokale Verwaltung";
+}
+
+<section class="panel hero-slim">
+    <div>
+        <p class="eyebrow">Benutzer</p>
+        <h2 class="section-title">Alle Benutzer sind Admins</h2>
+        <p class="subtle">Die Nutzerverwaltung bleibt lokal und bewusst schlank.</p>
+    </div>
+    <div class="actions">
+        <a asp-page="/Users/Create" class="btn btn-primary">
+            <partial name="_Icon" model='"plus"' />
+            <span>Neuer Benutzer</span>
+        </a>
+    </div>
+</section>
+
+<section class="list-grid">
+    @foreach (var user in Model.Items)
+    {
+        <article class="panel record">
+            <div class="record-head">
+                <div>
+                    <h3 class="record-title">@user.DisplayName</h3>
+                    <div class="record-meta">
+                        <span>@user.Username</span>
+                        <span>Letzter Login: @(user.LastLoginAt?.ToLocalTime().ToString("dd.MM.yyyy HH:mm") ?? "nie")</span>
+                    </div>
+                </div>
+                <div class="pill-row">
+                    <span class="pill pill-info">Admin</span>
+                    <span class="pill @(user.IsActive ? "pill-success" : "pill-danger")">@(user.IsActive ? "Aktiv" : "Inaktiv")</span>
+                </div>
+            </div>
+
+            <div class="actions">
+                <a asp-page="/Users/Edit" asp-route-id="@user.Id" class="btn btn-secondary">
+                    <partial name="_Icon" model='"edit"' />
+                    <span>Bearbeiten</span>
+                </a>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@user.Id" class="inline-form" data-confirm="Diesen Benutzer wirklich löschen?">
+                    <button type="submit" class="btn btn-danger">
+                        <partial name="_Icon" model='"trash"' />
+                        <span>Löschen</span>
+                    </button>
+                </form>
+            </div>
+        </article>
+    }
+</section>
+

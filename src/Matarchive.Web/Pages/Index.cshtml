@@ -1,0 +1,59 @@
+@page
+@model IndexModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Willkommen";
+    ViewData["Eyebrow"] = "Matarchive";
+}
+
+<section class="hero panel">
+    <div class="hero-copy">
+        <p class="eyebrow">Matthix + Archive</p>
+        <h2>Backup- und Sync-Jobs, lokal verwaltet, API-tauglich und mobil lesbar.</h2>
+        <p class="muted">
+            Matarchive modelliert Aufgaben mit Source und Destination, unterstuetzt E-Mail, SMB
+            und bietet eine klare Admin-Oberfläche für lokale Teams.
+        </p>
+
+        <div class="actions">
+            <a asp-page="/Account/Login" class="btn btn-primary">
+                <partial name="_Icon" model='"login"' />
+                <span>Login</span>
+            </a>
+            <a href="#features" class="btn btn-secondary">
+                <partial name="_Icon" model='"dashboard"' />
+                <span>Features</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-art">
+        <div class="hero-stat">
+            <strong>8077</strong>
+            <span>Standard-Port im Container</span>
+        </div>
+        <div class="hero-stat">
+            <strong>API Keys</strong>
+            <span>Status-Abfragen für externe Systeme</span>
+        </div>
+        <div class="hero-stat">
+            <strong>Archive + Sync</strong>
+            <span>Source + Destination als fester Kern</span>
+        </div>
+    </div>
+</section>
+
+<section id="features" class="grid grid-3">
+    <article class="panel feature">
+        <h3>Job-Modell</h3>
+        <p>Backup-Tasks mit Source und Destination, inklusive Archive- und Sync-Modus.</p>
+    </article>
+    <article class="panel feature">
+        <h3>Lokale Admins</h3>
+        <p>Die Benutzerverwaltung bleibt bewusst einfach: lokale Benutzer, alle mit Admin-Rechten.</p>
+    </article>
+    <article class="panel feature">
+        <h3>Mobilfreundlich</h3>
+        <p>Das Layout ist responsiv, mit Karten und Buttons, die auf kleinen Displays gut funktionieren.</p>
+    </article>
+</section>

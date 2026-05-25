@@ -1,0 +1,108 @@
+@page
+@model DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["Eyebrow"] = "Ueberblick";
+}
+
+<section class="grid grid-3">
+    <article class="panel feature">
+        <p class="eyebrow">Tasks</p>
+        <h3>@Model.TaskCount</h3>
+        <p>@Model.EnabledTaskCount aktiv, @Model.QueuedRunCount wartend.</p>
+    </article>
+    <article class="panel feature">
+        <p class="eyebrow">Verbindungen</p>
+        <h3>@Model.ConnectionCount</h3>
+        <p>Read/Write Profile.</p>
+    </article>
+    <article class="panel feature">
+        <p class="eyebrow">Benutzer & Keys</p>
+        <h3>@Model.UserCount / @Model.ApiKeyCount</h3>
+        <p>Admins und API-Status.</p>
+    </article>
+</section>
+
+<section class="panel record">
+    <div class="record-head">
+        <div>
+            <p class="eyebrow">Schnellzugriff</p>
+            <h2 class="record-title">Schnellstart</h2>
+        </div>
+        <div class="actions">
+            <a asp-page="/Tasks/Create" class="btn btn-primary">
+                <partial name="_Icon" model='"plus"' />
+                <span>Task anlegen</span>
+            </a>
+            <a asp-page="/Connections/Create" class="btn btn-secondary">
+                <partial name="_Icon" model='"connections"' />
+                <span>Verbindung anlegen</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="grid grid-2">
+    <article class="panel record">
+        <div class="record-head">
+            <div>
+                <p class="eyebrow">Letzte Tasks</p>
+                <h2 class="record-title">Aktuelle Aufgaben</h2>
+            </div>
+            <a asp-page="/Tasks/Index" class="btn btn-ghost">
+                <partial name="_Icon" model='"tasks"' />
+                <span>Alle anzeigen</span>
+            </a>
+        </div>
+
+        <div class="list-grid">
+            @foreach (var task in Model.Tasks)
+            {
+                <article class="panel feature">
+                    <div class="record-head">
+                        <div>
+                            <h3>@task.Name</h3>
+                            <p class="record-meta">
+                                <span>@task.TaskType</span>
+                                <span>@task.SourceName -> @task.DestinationName</span>
+                            </p>
+                        </div>
+                        <span class="pill @task.StatusClass">@task.Status</span>
+                    </div>
+                    <div class="pill-row">
+                        <span class="pill">Schedule: @(task.RunEveryMinutes is null ? "manuell" : $"{task.RunEveryMinutes} min")</span>
+                        <span class="pill">Letzter Lauf: @(task.LastRunAt?.ToLocalTime().ToString("dd.MM.yyyy HH:mm") ?? "nie")</span>
+                    </div>
+                </article>
+            }
+        </div>
+    </article>
+
+    <article class="panel record">
+        <div class="record-head">
+            <div>
+                <p class="eyebrow">Letzte Laeufe</p>
+                <h2 class="record-title">Run-Historie</h2>
+            </div>
+        </div>
+
+        <div class="list-grid">
+            @foreach (var run in Model.RecentRuns)
+            {
+                <article class="panel feature">
+                    <div class="record-head">
+                        <div>
+                            <h3>@run.TaskName</h3>
+                            <p class="record-meta">
+                                <span>@run.Trigger</span>
+                                <span>@run.Message</span>
+                            </p>
+                        </div>
+                        <span class="pill @run.StatusClass">@run.Status</span>
+                    </div>
+                    <p class="subtle">@(run.QueuedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm"))</p>
+                </article>
+            }
+        </div>
+    </article>
+</section>

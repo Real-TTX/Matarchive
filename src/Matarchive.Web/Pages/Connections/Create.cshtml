@@ -1,0 +1,214 @@
+@page
+@model Connections.CreateModel
+@{
+    ViewData["Title"] = "Verbindung anlegen";
+    ViewData["Eyebrow"] = "Verbindungsprofile";
+    var commonEndpointClass = Model.ShowCommonEndpoint ? "settings-band" : "settings-band is-hidden";
+    var emailReadClass = Model.ShowEmailReadEndpoint ? "settings-band" : "settings-band is-hidden";
+    var emailWriteClass = Model.ShowEmailWriteEndpoint ? "settings-band" : "settings-band is-hidden";
+    var commonPortFieldClass = Model.ShowPort ? "field" : "field is-hidden";
+    var commonSslFieldClass = Model.ShowSsl ? "field" : "field is-hidden";
+}
+
+<section class="panel record">
+    <div class="record-head">
+        <div>
+            <p class="eyebrow">Neue Verbindung</p>
+            <h2 class="section-title">Profil anlegen</h2>
+        </div>
+        <a asp-page="/Connections/Index" class="btn btn-secondary">
+            <partial name="_Icon" model='"back"' />
+            <span>Zur Liste</span>
+        </a>
+    </div>
+
+    <form method="post" class="form-grid" data-connection-form>
+        <input asp-for="OriginalType" type="hidden" />
+        <input asp-for="OriginalPort" type="hidden" />
+        <div asp-validation-summary="ModelOnly" class="muted"></div>
+
+        <div class="form-grid form-grid-2">
+            <div class="field">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="input" />
+                <span asp-validation-for="Name" class="muted"></span>
+            </div>
+            <div class="field">
+                <label asp-for="Type"></label>
+                <select asp-for="Type" asp-items="Model.TypeOptions" class="select" data-connection-type-select></select>
+                <span asp-validation-for="Type" class="muted"></span>
+            </div>
+        </div>
+
+        <div class="connection-type-card" aria-live="polite">
+            <div>
+                <p class="eyebrow">Aktueller Treiber</p>
+                <h3 class="section-title" data-connection-heading>@Model.ConnectionHeading</h3>
+            </div>
+            <div class="pill-row">
+                <span class="pill pill-info" data-connection-capability-summary>@Model.CapabilitySummary</span>
+            </div>
+        </div>
+
+        <section class="settings-band">
+            <div>
+                <p class="eyebrow">Richtung</p>
+                <h3 class="section-title">Faehigkeiten</h3>
+            </div>
+            <div class="check-grid">
+                <label class="check-row">
+                    <input asp-for="CanRead" data-connection-capability-read />
+                    <span>Source lesen</span>
+                </label>
+                <label class="check-row">
+                    <input asp-for="CanWrite" data-connection-capability-write />
+                    <span>Destination schreiben</span>
+                </label>
+            </div>
+            <span asp-validation-for="CanRead" class="muted"></span>
+        </section>
+
+        <section class="@commonEndpointClass" data-connection-section="common">
+            <div>
+                <p class="eyebrow">Endpunkt</p>
+                <h3 class="section-title">Zugriff</h3>
+            </div>
+            <div class="form-grid form-grid-2">
+                <div class="field">
+                    <label asp-for="Host"><span data-connection-label="host">@Model.HostLabel</span></label>
+                    <input asp-for="Host" class="input" />
+                    <span asp-validation-for="Host" class="muted"></span>
+                </div>
+                <div class="@commonPortFieldClass" data-connection-field="port">
+                    <label asp-for="Port"></label>
+                    <input asp-for="Port" class="input" type="number" min="1" step="1" data-connection-port-input />
+                    <span asp-validation-for="Port" class="muted"></span>
+                </div>
+            </div>
+            <div class="form-grid form-grid-2">
+                <div class="field">
+                    <label asp-for="Username"></label>
+                    <input asp-for="Username" class="input" autocomplete="username" />
+                    <span asp-validation-for="Username" class="muted"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Secret"></label>
+                    <input asp-for="Secret" class="input" type="password" autocomplete="new-password" />
+                    <span asp-validation-for="Secret" class="muted"></span>
+                </div>
+            </div>
+            <div class="form-grid form-grid-2">
+                <div class="@commonSslFieldClass" data-connection-field="ssl">
+                    <label class="check-row">
+                        <input asp-for="UseSsl" />
+                        <span>SSL/TLS verwenden</span>
+                    </label>
+                </div>
+                <div class="field" data-connection-field="remotePath">
+                    <label asp-for="RemotePath"><span data-connection-label="remotePath">@Model.RemotePathLabel</span></label>
+                    <input asp-for="RemotePath" class="input" placeholder="@Model.RemotePathPlaceholder" data-connection-remote-input />
+                    <span asp-validation-for="RemotePath" class="muted"></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="@emailReadClass" data-connection-section="emailRead">
+            <div>
+                <p class="eyebrow">E-Mail Lesen</p>
+                <h3 class="section-title">Posteingang</h3>
+            </div>
+            <div class="form-grid form-grid-3">
+                <div class="field">
+                    <label asp-for="IncomingProtocol"></label>
+                    <select asp-for="IncomingProtocol" asp-items="Model.IncomingProtocolOptions" class="select" data-connection-incoming-protocol></select>
+                    <span asp-validation-for="IncomingProtocol" class="muted"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Host">Posteingangsserver</label>
+                    <input asp-for="Host" class="input" />
+                    <span asp-validation-for="Host" class="muted"></span>
+                </div>
+                <div class="field" data-connection-field="port">
+                    <label asp-for="Port"></label>
+                    <input asp-for="Port" class="input" type="number" min="1" step="1" data-connection-port-input />
+                    <span asp-validation-for="Port" class="muted"></span>
+                </div>
+            </div>
+            <div class="form-grid form-grid-2">
+                <div class="field">
+                    <label asp-for="Username"></label>
+                    <input asp-for="Username" class="input" autocomplete="username" />
+                    <span asp-validation-for="Username" class="muted"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Secret"></label>
+                    <input asp-for="Secret" class="input" type="password" autocomplete="new-password" />
+                    <span asp-validation-for="Secret" class="muted"></span>
+                </div>
+            </div>
+            <div class="form-grid form-grid-2">
+                <label class="check-row">
+                    <input asp-for="UseSsl" />
+                    <span>SSL/TLS fuer Posteingang</span>
+                </label>
+                <div class="field">
+                    <label asp-for="RemotePath">Mailbox / Ordner</label>
+                    <input asp-for="RemotePath" class="input" placeholder="z. B. INBOX" />
+                    <span asp-validation-for="RemotePath" class="muted"></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="@emailWriteClass" data-connection-section="emailWrite">
+            <div>
+                <p class="eyebrow">E-Mail Schreiben</p>
+                <h3 class="section-title">SMTP</h3>
+            </div>
+            <div class="form-grid form-grid-3">
+                <div class="field">
+                    <label asp-for="OutgoingHost"></label>
+                    <input asp-for="OutgoingHost" class="input" />
+                    <span asp-validation-for="OutgoingHost" class="muted"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="OutgoingPort"></label>
+                    <input asp-for="OutgoingPort" class="input" type="number" min="1" step="1" data-connection-smtp-port-input />
+                    <span asp-validation-for="OutgoingPort" class="muted"></span>
+                </div>
+                <label class="check-row">
+                    <input asp-for="OutgoingUseSsl" />
+                    <span>SMTP SSL/TLS</span>
+                </label>
+            </div>
+            <div class="form-grid form-grid-2">
+                <div class="field">
+                    <label asp-for="OutgoingUsername"></label>
+                    <input asp-for="OutgoingUsername" class="input" autocomplete="username" />
+                    <span asp-validation-for="OutgoingUsername" class="muted"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="OutgoingSecret"></label>
+                    <input asp-for="OutgoingSecret" class="input" type="password" autocomplete="new-password" />
+                    <span asp-validation-for="OutgoingSecret" class="muted"></span>
+                </div>
+            </div>
+        </section>
+
+        <div class="field">
+            <label asp-for="Notes"></label>
+            <textarea asp-for="Notes" class="textarea" rows="3" placeholder="Optional"></textarea>
+            <span asp-validation-for="Notes" class="muted"></span>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <partial name="_Icon" model='"save"' />
+                <span>Speichern</span>
+            </button>
+            <a asp-page="/Connections/Index" class="btn btn-secondary">
+                <partial name="_Icon" model='"back"' />
+                <span>Abbrechen</span>
+            </a>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,26 @@
+@page
+@model ErrorModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Fehler";
+    ViewData["Eyebrow"] = "Matarchive";
+}
+
+<section class="panel hero-slim">
+    <div>
+        <p class="eyebrow">Fehlerseite</p>
+        <h2>Etwas ist beim Laden schiefgelaufen.</h2>
+        <p class="muted">Die Anwendung läuft weiter. Bitte geh zurück zum Dashboard oder melde dich noch einmal an.</p>
+    </div>
+    <div class="actions">
+        <a asp-page="/Index" class="btn btn-secondary">
+            <partial name="_Icon" model='"back"' />
+            <span>Zur Startseite</span>
+        </a>
+        <a asp-page="/Dashboard" class="btn btn-primary">
+            <partial name="_Icon" model='"dashboard"' />
+            <span>Dashboard</span>
+        </a>
+    </div>
+</section>
+

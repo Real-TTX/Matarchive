@@ -1,0 +1,31 @@
+services:
+  matarchive:
+    build:
+      context: .
+      dockerfile: src/Matarchive.Web/Dockerfile
+      target: build
+      args:
+        APP_PORT: ${APP_PORT:-8077}
+    command:
+      - dotnet
+      - watch
+      - --project
+      - src/Matarchive.Web/Matarchive.Web.csproj
+      - run
+      - --no-launch-profile
+      - --urls
+      - http://0.0.0.0:${APP_PORT:-8077}
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER: "1"
+      Matarchive__DataPath: /src/data
+      Matarchive__BaseUrl: http://localhost:${APP_PORT:-8077}
+      Matarchive__InitialAdminUsername: ${MATARCHIVE_ADMIN_USERNAME:-admin}
+      Matarchive__InitialAdminPassword: ${MATARCHIVE_ADMIN_PASSWORD:-ChangeMe!123}
+    ports:
+      - "${APP_PORT:-8077}:8077"
+    volumes:
+      - .:/src
+    working_dir: /src
+    restart: unless-stopped

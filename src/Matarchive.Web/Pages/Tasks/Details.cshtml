@@ -1,0 +1,85 @@
+@page "{id:guid}"
+@model Tasks.DetailsModel
+@{
+    ViewData["Title"] = "Task Details";
+    ViewData["Eyebrow"] = "Jobverwaltung";
+}
+
+<section class="panel record">
+    <div class="record-head">
+        <div>
+            <p class="eyebrow">Task Details</p>
+            <h2 class="section-title">@Model.Task.Name</h2>
+        </div>
+        <div class="actions">
+            <form method="post" asp-page-handler="Run" asp-route-id="@Model.Task.Id" class="inline-form">
+                <button type="submit" class="btn btn-primary">
+                    <partial name="_Icon" model='"play"' />
+                    <span>Run now</span>
+                </button>
+            </form>
+            <a asp-page="/Tasks/Edit" asp-route-id="@Model.Task.Id" class="btn btn-secondary">
+                <partial name="_Icon" model='"edit"' />
+                <span>Bearbeiten</span>
+            </a>
+            <a asp-page="/Tasks/Index" class="btn btn-ghost">
+                <partial name="_Icon" model='"back"' />
+                <span>Zur Liste</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="grid grid-2">
+        <article class="panel feature">
+            <p class="eyebrow">Konfiguration</p>
+            <p><strong>Typ:</strong> @Model.Task.TaskType</p>
+            <p><strong>Archivformat:</strong> @Model.Task.ArchiveFormat</p>
+            <p><strong>Kompression:</strong> @Model.Task.CompressionLevel</p>
+            <p><strong>Transfermodus:</strong> @Model.Task.TransferMode</p>
+            <p><strong>Zielverifikation:</strong> @(Model.Task.VerifyDestination ? "Ja" : "Nein")</p>
+            <p><strong>Fehler-Staging:</strong> @(Model.Task.KeepLocalStagingOnFailure ? "Behalten" : "Aufraeumen")</p>
+            <p><strong>Schedule:</strong> @Model.Task.ScheduleSummary</p>
+            <p><strong>Retention:</strong> @Model.Task.RetentionSummary</p>
+            <p><strong>Archivmuster:</strong> @Model.Task.ArchiveFileNamePattern</p>
+            <p><strong>Source:</strong> @Model.Task.SourceName</p>
+            <p><strong>Destination:</strong> @Model.Task.DestinationName</p>
+            <p><strong>Intervall:</strong> @(Model.Task.RunEveryMinutes is null ? "manuell" : $"{Model.Task.RunEveryMinutes} Minuten")</p>
+            <p><strong>Status:</strong> @Model.Task.LastStatus</p>
+        </article>
+
+        <article class="panel feature">
+            <p class="eyebrow">Letzter Lauf</p>
+            <p><strong>Timestamp:</strong> @(Model.Task.LastRunAt?.ToLocalTime().ToString("dd.MM.yyyy HH:mm") ?? "nie")</p>
+            <p><strong>Nachricht:</strong> @Model.Task.LastMessage</p>
+            <p><strong>Aktiv:</strong> @(Model.Task.Enabled ? "Ja" : "Nein")</p>
+        </article>
+    </div>
+</section>
+
+<section class="panel record">
+    <div class="record-head">
+        <div>
+            <p class="eyebrow">Run-Historie</p>
+            <h2 class="section-title">Letzte Ausführungen</h2>
+        </div>
+    </div>
+
+    <div class="list-grid">
+        @foreach (var run in Model.Runs)
+        {
+            <article class="panel feature">
+                <div class="record-head">
+                    <div>
+                        <h3>@run.Status</h3>
+                        <p class="record-meta">
+                            <span>@run.Trigger</span>
+                            <span>@run.Message</span>
+                        </p>
+                    </div>
+                    <span class="pill @run.StatusClass">@run.Status</span>
+                </div>
+                <p class="subtle">Eingeplant: @(run.QueuedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm"))</p>
+            </article>
+        }
+    </div>
+</section>

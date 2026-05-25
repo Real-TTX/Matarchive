@@ -1,0 +1,7 @@
+**/bin/
+**/obj/
+.git/
+.vs/
+data/
+src/Matarchive.Web/wwwroot/lib/
+

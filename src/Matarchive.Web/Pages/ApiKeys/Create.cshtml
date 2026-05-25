@@ -1,0 +1,52 @@
+@page
+@model ApiKeys.CreateModel
+@{
+    ViewData["Title"] = "API-Key anlegen";
+    ViewData["Eyebrow"] = "Statuszugriff";
+}
+
+<section class="panel record">
+    <div class="record-head">
+        <div>
+            <p class="eyebrow">Neuer API-Key</p>
+            <h2 class="section-title">Einmalig anzeigen, dann sicher verwahren</h2>
+        </div>
+        <a asp-page="/ApiKeys/Index" class="btn btn-secondary">
+            <partial name="_Icon" model='"back"' />
+            <span>Zur Liste</span>
+        </a>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.SecretValue))
+    {
+        <article class="panel feature" data-copy-text="@Model.SecretValue">
+            <p class="eyebrow">Neuer Schlüssel</p>
+            <h3>@Model.SecretLabel</h3>
+            <p class="muted" data-copy-label>@Model.SecretValue</p>
+            <button type="button" class="btn btn-secondary">
+                <partial name="_Icon" model='"key"' />
+                <span>Kopieren</span>
+            </button>
+        </article>
+    }
+
+    <form method="post" class="form-grid">
+        <div asp-validation-summary="ModelOnly" class="muted"></div>
+        <div class="field">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="input" />
+            <span asp-validation-for="Name" class="muted"></span>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <partial name="_Icon" model='"save"' />
+                <span>API-Key erzeugen</span>
+            </button>
+            <a asp-page="/ApiKeys/Index" class="btn btn-secondary">
+                <partial name="_Icon" model='"back"' />
+                <span>Abbrechen</span>
+            </a>
+        </div>
+    </form>
+</section>
+
